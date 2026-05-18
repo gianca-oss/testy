@@ -383,9 +383,9 @@ body {
   padding: 10px 12px;
   background: var(--surface-hover);
   border-radius: 8px;
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
   letter-spacing: -0.022em;
   animation: fadeIn 0.3s var(--ease);
 }
