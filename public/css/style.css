@@ -5,16 +5,16 @@
 }
 
 :root {
-  --bg: #0a0a0a;
-  --surface: #1a1a1a;
-  --surface-hover: #2a2a2a;
-  --border: #3a3a3c;
-  --border-subtle: #2a2a2a;
-  --text: #f5f5f7;
-  --text-dim: #a1a1a6;
-  --green: #34c759;
-  --red: #ff3b30;
-  --blue: #007aff;
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --surface-hover: #f0f0f2;
+  --border: #d2d2d7;
+  --border-subtle: #e5e5ea;
+  --text: #1d1d1f;
+  --text-dim: #86868b;
+  --green: #248a3d;
+  --red: #d70015;
+  --blue: #0071e3;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -63,6 +63,7 @@ body {
   border-radius: 12px;
   padding: 24px 20px;
   margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .config-card h2 {
@@ -97,7 +98,7 @@ body {
   font-family: inherit;
   letter-spacing: -0.022em;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23a1a1a6'%3E%3Cpath d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2386868b'%3E%3Cpath d='M5 7L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   cursor: pointer;
@@ -113,7 +114,7 @@ body {
   width: 100%;
   padding: 12px 24px;
   background: var(--text);
-  color: #000;
+  color: #fff;
   border: none;
   border-radius: 980px;
   font-size: 14px;
@@ -267,6 +268,7 @@ body {
   border-radius: 12px;
   padding: 24px 20px;
   margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .question-chapter {
@@ -335,7 +337,7 @@ body {
 
 .option-btn.correct {
   border-color: var(--green);
-  background: rgba(52, 199, 89, 0.08);
+  background: rgba(36, 138, 61, 0.07);
 }
 
 .option-btn.correct .option-letter {
@@ -345,7 +347,7 @@ body {
 
 .option-btn.wrong {
   border-color: var(--red);
-  background: rgba(255, 59, 48, 0.08);
+  background: rgba(215, 0, 21, 0.06);
 }
 
 .option-btn.wrong .option-letter {
