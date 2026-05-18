@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMBA Quiz — Organizzazione e Lavoro</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- HOME SCREEN -->
+    <div id="home-screen" class="screen active">
+      <div class="hero">
+        <h1>Organizzazione e Lavoro</h1>
+        <p class="hero-sub">Test a risposta multipla · EMBA</p>
+      </div>
+
+      <div class="config-card">
+        <h2>Configura il quiz</h2>
+
+        <div class="field">
+          <label for="chapter-select">Argomento</label>
+          <select id="chapter-select">
+            <option value="all">Tutti i capitoli</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="count-select">Numero di domande</label>
+          <select id="count-select">
+            <option value="10">10 domande</option>
+            <option value="20">20 domande</option>
+            <option value="30" selected>30 domande</option>
+            <option value="50">50 domande</option>
+            <option value="70">70 domande</option>
+            <option value="all">Tutte le domande</option>
+          </select>
+        </div>
+
+        <button id="start-btn" class="btn-primary">Inizia il Quiz</button>
+      </div>
+
+      <div id="stats-card" class="stats-card" style="display:none">
+        <h3>Le tue statistiche</h3>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-value" id="stat-total">0</span>
+            <span class="stat-label">Quiz completati</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-avg">0%</span>
+            <span class="stat-label">Media</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-best">0%</span>
+            <span class="stat-label">Miglior risultato</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+      <div class="quiz-header">
+        <div class="quiz-progress">
+          <span id="q-counter">1 / 20</span>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+        <button id="quit-btn" class="btn-ghost">Esci</button>
+      </div>
+
+      <div class="question-card">
+        <div class="question-chapter" id="q-chapter"></div>
+        <h2 id="q-text" class="question-text"></h2>
+        <div id="options-container" class="options"></div>
+      </div>
+
+      <div class="quiz-footer">
+        <button id="next-btn" class="btn-primary" style="display:none">Prossima domanda</button>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen" class="screen">
+      <div class="results-hero">
+        <div id="results-emoji" class="results-emoji">🎯</div>
+        <h1 id="results-score">0%</h1>
+        <p id="results-detail">0 su 0 risposte corrette</p>
+        <p id="results-message" class="results-message"></p>
+      </div>
+
+      <div class="results-actions">
+        <button id="review-btn" class="btn-secondary">Rivedi le risposte</button>
+        <button id="retry-btn" class="btn-primary">Nuovo quiz</button>
+      </div>
+
+      <div id="review-section" class="review-section" style="display:none">
+        <h2>Revisione delle risposte</h2>
+        <div id="review-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

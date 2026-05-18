@@ -1,0 +1,13 @@
+{
+  "name": "emba-quiz",
+  "version": "1.0.0",
+  "description": "Quiz a risposta multipla su argomenti EMBA - Organizzazione e Lavoro",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
