@@ -226,11 +226,22 @@ body {
 }
 
 /* QUIZ */
+#quiz-screen {
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#quiz-screen.active {
+  display: flex;
+}
+
 .quiz-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0 20px;
+  padding: 8px 0 12px;
 }
 
 .quiz-progress {
@@ -266,48 +277,50 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 24px 20px;
-  margin-bottom: 16px;
+  padding: 16px 16px;
+  margin-bottom: 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  flex: 1;
+  overflow-y: auto;
 }
 
 .question-chapter {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-dim);
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .question-text {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1.47;
+  line-height: 1.4;
   letter-spacing: -0.022em;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .option-btn {
   width: 100%;
   text-align: left;
-  padding: 12px 14px;
+  padding: 9px 12px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
-  font-size: 14px;
+  font-size: 13px;
   font-family: inherit;
   letter-spacing: -0.022em;
   cursor: pointer;
   transition: all 0.3s var(--ease);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .option-btn:hover:not(.disabled) {
@@ -323,13 +336,13 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 6px;
   background: var(--border);
   font-weight: 700;
-  font-size: 12px;
-  margin-right: 10px;
+  font-size: 11px;
+  margin-right: 8px;
   vertical-align: middle;
   flex-shrink: 0;
   transition: all 0.3s var(--ease);
@@ -366,12 +379,12 @@ body {
 }
 
 .explanation {
-  margin-top: 14px;
-  padding: 14px;
+  margin-top: 10px;
+  padding: 10px 12px;
   background: var(--surface-hover);
   border-radius: 8px;
-  font-size: 13px;
-  line-height: 1.54;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--text-dim);
   letter-spacing: -0.022em;
   animation: fadeIn 0.3s var(--ease);
@@ -383,7 +396,8 @@ body {
 }
 
 .quiz-footer {
-  padding: 0 0 20px;
+  padding: 10px 0 16px;
+  flex-shrink: 0;
 }
 
 /* RESULTS */
