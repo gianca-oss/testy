@@ -29,6 +29,7 @@ $('#next-btn').addEventListener('click', nextQuestion);
 $('#quit-btn').addEventListener('click', () => showScreen('home'));
 $('#retry-btn').addEventListener('click', () => showScreen('home'));
 $('#review-btn').addEventListener('click', toggleReview);
+$('#reset-stats-btn').addEventListener('click', resetStats);
 
 async function startQuiz() {
   const chapter = $('#chapter-select').value;
@@ -70,8 +71,7 @@ function renderQuestion() {
   const container = $('#options-container');
   container.innerHTML = '';
 
-  const oldExplanation = document.querySelector('.explanation');
-  if (oldExplanation) oldExplanation.remove();
+  document.querySelectorAll('.explanation').forEach(el => el.remove());
 
   Object.entries(q.options).forEach(([letter, text]) => {
     const btn = document.createElement('button');
@@ -83,6 +83,7 @@ function renderQuestion() {
 }
 
 function selectAnswer(letter, btn) {
+  if (btn.classList.contains('disabled')) return;
   const q = state.questions[state.current];
   const isCorrect = letter === q.correct;
 
@@ -132,8 +133,53 @@ function showResults() {
   $('#results-message').textContent = message;
   $('#review-section').style.display = 'none';
 
+  renderBreakdown();
   saveStats(pct);
   showScreen('results');
+}
+
+function renderBreakdown() {
+  const chapterMap = {};
+  state.answers.forEach((ans, i) => {
+    const q = state.questions[i];
+    if (!chapterMap[q.chapter]) chapterMap[q.chapter] = { correct: 0, total: 0 };
+    chapterMap[q.chapter].total++;
+    if (ans.isCorrect) chapterMap[q.chapter].correct++;
+  });
+
+  const entries = Object.keys(chapterMap)
+    .sort((a, b) => parseInt(a) - parseInt(b))
+    .map(id => {
+      const ch = state.chapters.find(c => c.id === parseInt(id));
+      return { id, chapter: ch, ...chapterMap[id] };
+    });
+
+  if (entries.length <= 1) {
+    $('#chapter-breakdown').style.display = 'none';
+    return;
+  }
+
+  const list = $('#breakdown-list');
+  list.innerHTML = '';
+
+  entries.forEach(e => {
+    const pct = Math.round((e.correct / e.total) * 100);
+    const level = pct >= 70 ? 'high' : pct >= 40 ? 'mid' : 'low';
+    const label = e.chapter ? e.chapter.title : `Cap. ${e.id}`;
+    const shortLabel = label.length > 18 ? label.slice(0, 17) + '…' : label;
+
+    const row = document.createElement('div');
+    row.className = 'breakdown-row';
+    row.innerHTML = `
+      <span class="breakdown-label" title="${label}">${shortLabel}</span>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar level-${level}" style="width:${pct}%"></div></div>
+      <span class="breakdown-pct">${pct}%</span>
+      <span class="breakdown-count">${e.correct}/${e.total}</span>
+    `;
+    list.appendChild(row);
+  });
+
+  $('#chapter-breakdown').style.display = 'block';
 }
 
 function toggleReview() {
@@ -183,6 +229,12 @@ function saveStats(pct) {
   stats.total++;
   localStorage.setItem('emba-quiz-stats', JSON.stringify(stats));
   loadStats();
+}
+
+function resetStats() {
+  if (!confirm('Cancellare tutte le statistiche?')) return;
+  localStorage.removeItem('emba-quiz-stats');
+  $('#stats-card').style.display = 'none';
 }
 
 function loadStats() {

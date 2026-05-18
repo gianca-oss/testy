@@ -41,7 +41,10 @@
       </div>
 
       <div id="stats-card" class="stats-card" style="display:none">
-        <h3>Le tue statistiche</h3>
+        <div class="stats-header">
+          <h3>Le tue statistiche</h3>
+          <button id="reset-stats-btn" class="btn-reset">Cancella</button>
+        </div>
         <div class="stats-grid">
           <div class="stat">
             <span class="stat-value" id="stat-total">0</span>
@@ -89,6 +92,11 @@
         <h1 id="results-score">0%</h1>
         <p id="results-detail">0 su 0 risposte corrette</p>
         <p id="results-message" class="results-message"></p>
+      </div>
+
+      <div id="chapter-breakdown" class="breakdown-card" style="display:none">
+        <h3>Livello di conoscenza per argomento</h3>
+        <div id="breakdown-list"></div>
       </div>
 
       <div class="results-actions">
