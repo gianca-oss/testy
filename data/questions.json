@@ -2,38 +2,38 @@
   "chapters": [
     {
       "id": 1,
-      "title": "La Transizione Sostenibile dell'Impresa",
-      "icon": "🌍"
+      "title": "Mura - La Transizione Sostenibile dell'Impresa",
+      "icon": "●"
     },
     {
       "id": 2,
-      "title": "Digital Analytics e Data Economy",
-      "icon": "📊"
+      "title": "Fiore - Digital Analytics e Data Economy",
+      "icon": "●"
     },
     {
       "id": 3,
-      "title": "Change Management",
-      "icon": "🔄"
+      "title": "Zamarian - Change Management",
+      "icon": "●"
     },
     {
       "id": 4,
-      "title": "Intelligenza Socio-Emotiva e AI",
-      "icon": "🧠"
+      "title": "Comacchio - Intelligenza Socio-Emotiva e AI",
+      "icon": "●"
     },
     {
       "id": 5,
-      "title": "Business Process Management",
-      "icon": "⚙️"
+      "title": "Orzes - Business Process Management",
+      "icon": "●"
     },
     {
       "id": 6,
-      "title": "Contratti di Lavoro, Incentivi e Contributi",
-      "icon": "📋"
+      "title": "Garofalo - Contratti di Lavoro, Incentivi e Contributi",
+      "icon": "●"
     },
     {
       "id": 7,
-      "title": "Diritto del Lavoro e Relazioni Industriali",
-      "icon": "⚖️"
+      "title": "Zilli - Diritto del Lavoro e Relazioni Industriali",
+      "icon": "●"
     }
   ],
   "questions": [
