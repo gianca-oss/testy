@@ -134,8 +134,41 @@ function showResults() {
   $('#review-section').style.display = 'none';
 
   renderBreakdown();
+  renderStudy();
   saveStats(pct);
   showScreen('results');
+}
+
+function renderStudy() {
+  const wrong = state.answers
+    .map((ans, i) => ({ ans, q: state.questions[i], i }))
+    .filter(({ ans }) => !ans.isCorrect);
+
+  if (wrong.length === 0) {
+    $('#study-section').style.display = 'none';
+    return;
+  }
+
+  const list = $('#study-list');
+  list.innerHTML = '';
+
+  wrong.forEach(({ ans, q }) => {
+    const chapter = state.chapters.find(c => c.id === q.chapter);
+    const chLabel = chapter ? `${chapter.icon} ${chapter.title}` : '';
+
+    const div = document.createElement('div');
+    div.className = 'study-item';
+    div.innerHTML = `
+      <div class="study-chapter">${chLabel}</div>
+      <div class="study-q">${q.question}</div>
+      <div class="study-answer"><span class="wrong-label">✗ Hai risposto:</span> ${ans.selected}) ${q.options[ans.selected]}</div>
+      <div class="study-answer"><span class="correct-label">✓ Corretta:</span> ${ans.correct}) ${q.options[ans.correct]}</div>
+      <div class="study-explanation">${q.explanation}</div>
+    `;
+    list.appendChild(div);
+  });
+
+  $('#study-section').style.display = 'block';
 }
 
 function renderBreakdown() {

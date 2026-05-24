@@ -467,6 +467,69 @@ body {
   margin-bottom: 28px;
 }
 
+/* STUDY */
+.study-section {
+  margin-bottom: 20px;
+}
+
+.study-section h2 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  margin-bottom: 16px;
+}
+
+.study-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--red);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.study-chapter {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.study-q {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  letter-spacing: -0.022em;
+}
+
+.study-answer {
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: -0.022em;
+  margin-bottom: 4px;
+}
+
+.study-answer .wrong-label {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.study-answer .correct-label {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.study-explanation {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  letter-spacing: -0.022em;
+}
+
 /* BREAKDOWN */
 .breakdown-card {
   background: var(--surface);
