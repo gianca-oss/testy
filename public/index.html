@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Organizzazione e Lavoro — Quiz EMBA</title>
+<title>Organizzazione e Lavoro - Quiz EMBA</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
 
   :root{
-    /* palette — neutra, Apple-like, accento unico */
+    /* palette - neutra, Apple-like, accento unico */
     --bg:#eef0f3;
     --surface:#ffffff;
     --surface-2:#f5f6f8;
@@ -29,7 +29,7 @@
     --r:16px; --r-sm:11px; --r-pill:999px;
     --ease:cubic-bezier(.4,0,.2,1);
 
-    /* scala tipografica — desktop di default, ridotta su mobile via media query */
+    /* scala tipografica - desktop di default, ridotta su mobile via media query */
     --t-hero:30px;
     --t-title:21px;
     --t-q:27px;
@@ -61,7 +61,7 @@
 
   /* ---------- generic controls ---------- */
   .btn{
-    font:inherit;cursor:pointer;border:none;border-radius:var(--r-pill);
+    font:inherit;cursor:pointer;border:none;border-radius:12px;
     font-weight:600;letter-spacing:-.01em;transition:all .2s var(--ease);
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
   }
@@ -104,6 +104,7 @@
   .topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px}
   .topic{
     text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+    color:var(--ink);
     padding:14px 16px;cursor:pointer;transition:all .18s var(--ease);
     display:flex;align-items:flex-start;gap:12px;min-height:64px;box-shadow:var(--shadow);
   }
@@ -112,9 +113,10 @@
     width:18px;height:18px;border-radius:50%;border:2px solid var(--line-strong);
     margin-top:2px;flex-shrink:0;transition:all .18s var(--ease);position:relative;
   }
-  .topic.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent) inset, var(--shadow)}
-  .topic.sel .dot{border-color:var(--accent);background:var(--accent)}
-  .topic.sel .dot::after{content:"";position:absolute;inset:4px;background:#fff;border-radius:50%}
+  .topic.sel{background:var(--ink);border-color:var(--ink);color:#fff}
+  .topic.sel .t-prof{color:rgba(255,255,255,.7)}
+  .topic.sel .dot{border-color:#fff;background:#fff}
+  .topic.sel .dot::after{content:"";position:absolute;inset:4px;background:var(--ink);border-radius:50%}
   .topic .tx{min-width:0;display:flex;flex-direction:column}
   .topic .t-name{display:block;font-size:var(--t-body);font-weight:600;letter-spacing:-.01em;line-height:1.25}
   .topic .t-prof{display:block;font-size:var(--t-meta);color:var(--ink-2);margin-top:3px}
@@ -123,10 +125,10 @@
 
   /* ripasso errori */
   .review-deck{margin-bottom:32px}
-  .topic.review{align-items:center}
+  .topic.review{align-items:center;width:100%}
   .topic.review .t-badge{
     margin-left:auto;flex-shrink:0;align-self:center;
-    background:var(--amber);color:#fff;font-size:14px;font-weight:700;
+    background:var(--bad);color:#fff;font-size:14px;font-weight:700;
     min-width:28px;height:28px;padding:0 10px;border-radius:var(--r-pill);
     display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;
   }
@@ -213,7 +215,7 @@
   .opt.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
   .opt .mark{margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .2s var(--ease)}
   .opt.correct .mark,.opt.wrong .mark{opacity:1}
-  /* key badge — nascosto di default, mostrato su desktop via media query */
+  /* key badge - nascosto di default, mostrato su desktop via media query */
   .opt .key-badge{display:none;margin-left:auto;align-self:center;
     font-size:11px;font-weight:700;color:var(--ink-3);
     border:1px solid var(--line-strong);border-radius:6px;padding:2px 7px;background:var(--surface-2)}
@@ -293,15 +295,22 @@
   .empty-good{display:flex;align-items:center;gap:12px;color:var(--good);font-weight:600;font-size:var(--t-body)}
 
   /* schermata ripasso (lettura errori) */
-  #study .wrap{padding-top:max(40px,var(--safe-top));padding-bottom:calc(44px + var(--safe-bottom))}
+  #study.active{display:flex;height:100dvh;max-height:100dvh;overflow:hidden;flex-direction:column}
+  .study-scroll{flex:1;min-height:0;overflow-y:auto;width:100%}
+  #study .wrap{padding-top:max(40px,var(--safe-top));padding-bottom:16px}
+  .study-hint{font-size:var(--t-meta);color:var(--ink-3);margin-top:10px}
+  .study-item{position:relative;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    transition:transform .5s linear,background .5s linear,border-color .5s linear}
+  .study-item.pressing{transform:scale(.985);background:var(--bad-soft);border-color:var(--bad)}
   .back-btn{align-self:flex-start;margin-bottom:14px;padding-left:0}
   .study-hero{margin-bottom:24px}
+  .study-hero-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
   .study-hero h1{font-size:var(--t-hero);font-weight:680;letter-spacing:-.02em;line-height:1.12}
   .study-hero .sub{color:var(--ink-2);font-size:var(--t-body);margin-top:6px}
   #study-page-list .study-item{margin-bottom:12px}
 
   /* ============================================================
-     MOBILE  (iPhone 15 Pro ≈ 393pt) — compatto, leggibile
+     MOBILE  (iPhone 15 Pro ≈ 393pt) - compatto, leggibile
   ============================================================ */
   @media (max-width:600px){
     :root{
@@ -329,8 +338,7 @@
     .explain p{font-size:14px;line-height:1.45}
     .q-foot{padding:10px var(--pad-x) calc(14px + var(--safe-bottom));justify-content:center}
     .q-foot .hint{display:none}
-    #next-btn{min-width:200px}
-    .res-hero{gap:18px;margin-bottom:28px}
+    .q-foot .btn-primary{min-width:200px}    .res-hero{gap:18px;margin-bottom:28px}
     .ring{width:104px;height:104px}
     .ring .pct b{font-size:26px}
     .stat .v{font-size:25px}
@@ -341,7 +349,7 @@
   body.frame-ios{--safe-top:46px;--safe-bottom:26px}
 
   /* ============================================================
-     DESKTOP wide — extra aria
+     DESKTOP wide - extra aria
   ============================================================ */
   @media (min-width:900px){
     .kbd-hint{display:inline-flex;align-items:center;gap:7px;color:var(--ink-3);font-size:var(--t-meta)}
@@ -464,14 +472,23 @@
 
   <!-- ===================== RIPASSO (lettura errori) ===================== -->
   <section id="study" class="screen">
-    <div class="wrap">
-      <button class="btn btn-ghost back-btn" id="study-back">‹ Home</button>
-      <div class="study-hero">
-        <h1>Da ripassare</h1>
-        <p class="sub" id="study-sub"></p>
+    <div class="study-scroll">
+      <div class="wrap">
+        <button class="btn btn-ghost back-btn" id="study-back">‹ Home</button>
+        <div class="study-hero">
+          <div class="study-hero-top">
+            <h1>Da ripassare</h1>
+            <button class="reset" id="study-clear">Svuota elenco</button>
+          </div>
+          <p class="sub" id="study-sub"></p>
+          <p class="study-hint">Tieni premuta una domanda per rimuoverla dal ripasso.</p>
+        </div>
+        <div id="study-page-list"></div>
       </div>
-      <div id="study-page-list"></div>
-      <button id="study-quiz-btn" class="btn btn-primary" style="width:100%;margin-top:8px">Mettiti alla prova su queste</button>
+    </div>
+    <div class="q-foot">
+      <div class="hint"></div>
+      <button id="study-quiz-btn" class="btn btn-primary">Mettiti alla prova su queste</button>
     </div>
   </section>
 
@@ -519,7 +536,7 @@ function buildTopics(){
   const grid = $('#topic-grid'); grid.innerHTML='';
   state.chapters.forEach(ch=>{
     const n = state.all.filter(q=>q.chapter===ch.id).length;
-    grid.appendChild(topicCard(ch.id, topicOf(ch.title), profOf(ch.title)+' · '+n+' domande', false));
+    grid.appendChild(topicCard(ch.id, topicOf(ch.title), profOf(ch.title)+' - '+n+' domande', false));
   });
   if(state.chapters.length) selectTopic(state.chapters[0].id);
 }
@@ -544,7 +561,7 @@ function buildReviewDeck(){
   const b=el('button','topic review'+(n?'':' disabled'));
   b.dataset.value='errors';
   const sub = n ? 'Tocca per rivedere le domande sbagliate'
-               : 'Nessun errore salvato — completa un quiz';
+               : 'Nessun errore salvato - completa un quiz';
   b.innerHTML=`<span class="tx"><span class="t-name">Solo gli errori da ripassare</span><span class="t-prof">${sub}</span></span><span class="t-badge">${n}</span>`
     + (n?`<svg class="rip-chev" width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5l6 6-6 6"/></svg>`:'');
   if(n) b.addEventListener('click',openErrorReview);
@@ -556,6 +573,26 @@ function updateReviewDeck(){
 }
 
 /* ---------- lettura/ripasso delle domande sbagliate ---------- */
+function clearErrors(){
+  if(!state.errors.size) return;
+  if(!confirm('Svuotare l\u2019elenco delle domande da ripassare?')) return;
+  state.errors.clear(); saveErrors();
+  showScreen('home');
+}
+function removeError(id){
+  if(!confirm('Rimuovere questa domanda dal ripasso?')) return;
+  state.errors.delete(id); saveErrors();
+  if(state.errors.size===0){ showScreen('home'); return; }
+  openErrorReview();
+}
+function attachLongPress(elm, cb){
+  let t=null, sx=0, sy=0;
+  const clear=()=>{ if(t){clearTimeout(t);t=null;} elm.classList.remove('pressing'); };
+  elm.addEventListener('pointerdown',e=>{ sx=e.clientX; sy=e.clientY; elm.classList.add('pressing');
+    t=setTimeout(()=>{ elm.classList.remove('pressing'); cb(); }, 550); });
+  elm.addEventListener('pointermove',e=>{ if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10) clear(); });
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>elm.addEventListener(ev,clear));
+}
 function openErrorReview(){
   const qs = state.all.filter(q=>state.errors.has(q.id));
   const list=$('#study-page-list'); list.innerHTML='';
@@ -566,8 +603,10 @@ function openErrorReview(){
       <div class="sq">${q.question}</div>
       <div class="ans ok"><span class="tag">Corretta</span><span>${q.correct}) ${q.options[q.correct]}</span></div>
       <div class="why">${q.explanation}</div>`;
+    attachLongPress(d, ()=>removeError(q.id));
     list.appendChild(d);
   });
+  const sc=document.querySelector('.study-scroll'); if(sc) sc.scrollTop=0;
   showScreen('study');
 }
 
@@ -753,7 +792,7 @@ function renderStudy(){
   if(!wrong.length){
     sec.querySelector('h2').textContent='Da ripassare';
     const ok=el('div','card card-pad');
-    ok.innerHTML='<div class="empty-good"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5l4.5 4.5L18 6"/></svg> Nessun errore — niente da ripassare!</div>';
+    ok.innerHTML='<div class="empty-good"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5l4.5 4.5L18 6"/></svg> Nessun errore - niente da ripassare!</div>';
     list.appendChild(ok); sec.style.display='block'; return;
   }
   wrong.forEach(a=>{
@@ -834,6 +873,7 @@ document.addEventListener('keydown',e=>{
 /* ---------- bind ---------- */
 $('#start-btn').addEventListener('click',startQuiz);
 $('#study-back').addEventListener('click',()=>showScreen('home'));
+$('#study-clear').addEventListener('click',clearErrors);
 $('#study-quiz-btn').addEventListener('click',()=>{ selectTopic('errors'); startQuiz(); });
 $('#next-btn').addEventListener('click',next);
 $('#quit-btn').addEventListener('click',()=>showScreen('home'));
