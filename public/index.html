@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Organizzazione e Lavoro - Quiz EMBA</title>
+<meta name="description" content="Quiz a risposta multipla sui 7 moduli del corso Organizzazione e Lavoro - EMBA.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#17181b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Quiz EMBA">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
 
@@ -882,6 +891,11 @@ $('#review-btn').addEventListener('click',toggleReview);
 $('#reset-stats').addEventListener('click',resetStats);
 
 init();
+
+/* PWA: registra il service worker (solo a pagina intera, non nell'anteprima in iframe) */
+if('serviceWorker' in navigator && window.top===window.self){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>

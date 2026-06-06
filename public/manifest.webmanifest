@@ -1,0 +1,32 @@
+{
+  "name": "Organizzazione e Lavoro - Quiz EMBA",
+  "short_name": "Quiz EMBA",
+  "description": "Quiz a risposta multipla sui 7 moduli del corso Organizzazione e Lavoro.",
+  "lang": "it",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eef0f3",
+  "theme_color": "#17181b",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
