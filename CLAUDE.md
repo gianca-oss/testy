@@ -11,7 +11,8 @@ dalla dispensa d'esame con `scripts/parse_marketing_pdf.py` (testo del PDF via p
 sono le domande dei "Test di autoverifica" del docente, non domande generate. Il campo
 `part` di ogni domanda ricalca la suddivisione della dispensa (1 = le quindici più
 probabili all'esame per modulo, 2 = banca completa, 3 = concetti generali dalle slide);
-le domande con `part: 1` mostrano il contrassegno "Più probabile" durante il quiz.
+le domande con `part: 1` mostrano il contrassegno "Più probabile" durante il quiz e
+sono selezionabili da sole con il filtro in home.
 
 ## Struttura
 - App statica servita da un piccolo `server.js` Express (solo `express.static`).

@@ -144,6 +144,11 @@
   .topic.review.sel .t-badge{background:var(--accent)}
   .topic.disabled{opacity:.55;cursor:default;pointer-events:none}
   .topic.disabled .t-badge{background:var(--ink-3)}
+  .filter-deck{margin-bottom:32px}
+  .topic-grid.with-filter{margin-bottom:12px}
+  .topic.filter .t-name{display:inline-flex;align-items:center;gap:7px}
+  .topic.filter .t-badge{background:var(--amber)}
+  .topic.filter.sel .t-badge{background:#fff;color:var(--ink)}
   .rip-label{margin-top:32px}
   .rip-chev{color:var(--ink-3);flex-shrink:0}
 
@@ -341,6 +346,7 @@
     .topic.all{grid-column:auto}
     .topic:not(.all):not(.review) .t-prof{display:none}
     .review-deck{margin-bottom:20px}
+    .filter-deck{margin-bottom:20px}
     .count-row{margin-bottom:24px}
     .chip{font-size:13px;padding:10px 2px}
     #home .wrap{padding-top:max(40px,var(--safe-top));padding-bottom:calc(28px + var(--safe-bottom))}
@@ -396,6 +402,7 @@
 
       <div class="section-label">Argomento</div>
       <div class="topic-grid" id="topic-grid"></div>
+      <div class="filter-deck" id="filter-deck" style="display:none"></div>
 
       <div class="section-label">Numero di domande</div>
       <div class="count-row" id="count-row"></div>
@@ -522,7 +529,7 @@ const el = (t,c) => { const e=document.createElement(t); if(c) e.className=c; re
 const state = {
   courses:[], course:null,
   all:[], chapters:[], questions:[], current:0, answers:[], score:0,
-  topic:'all', count:30, answered:false, errors:new Set(),
+  topic:'all', count:30, countPref:30, answered:false, errors:new Set(), likelyOnly:false,
 };
 
 /* ---------- frame / safe-area param (per lo showcase) ---------- */
@@ -579,6 +586,7 @@ async function loadCourse(id){
   $('#home-sub').textContent = c.sub || '';
   document.querySelectorAll('#course-row .chip').forEach(b=>b.classList.toggle('sel', b.dataset.course===c.id));
   state.topic='all';
+  state.likelyOnly=false;
   buildCounts();   // prima i chip, così buildTopics può già nasconderli in base al pool
   buildTopics();
   state.errors = loadErrors();
@@ -606,7 +614,8 @@ function topicCard(value, name, prof, isAll){
 }
 function selectTopic(v){
   state.topic = v;
-  document.querySelectorAll('.topic').forEach(t=>t.classList.toggle('sel', t.dataset.value==String(v)));
+  document.querySelectorAll('#topic-grid .topic').forEach(t=>t.classList.toggle('sel', t.dataset.value==String(v)));
+  buildFilterDeck();
   refreshCounts();
 }
 
@@ -672,15 +681,44 @@ function buildCounts(){
   const row=$('#count-row'); row.innerHTML='';
   COUNTS.forEach(n=>{
     const c=el('button','chip'); c.dataset.count=n; c.textContent=n; row.appendChild(c);
-    c.addEventListener('click',()=>selectCount(n));
+    c.addEventListener('click',()=>pickCount(n));
   });
   const allc=el('button','chip'); allc.dataset.count='all'; allc.textContent='Tutte'; row.appendChild(allc);
-  allc.addEventListener('click',()=>selectCount('all'));
-  selectCount(30);
+  allc.addEventListener('click',()=>pickCount('all'));
+  pickCount(30);
 }
-function poolSize(){
-  if(state.topic==='errors') return state.errors.size;
-  return state.topic==='all'?state.all.length:state.all.filter(q=>q.chapter===parseInt(state.topic)).length;
+function topicPool(){
+  if(state.topic==='errors') return state.all.filter(q=>state.errors.has(q.id));
+  return state.topic==='all' ? state.all : state.all.filter(q=>q.chapter===parseInt(state.topic));
+}
+/* il filtro "più probabili" non si applica al mazzo degli errori */
+function activePool(){
+  const p=topicPool();
+  return (state.likelyOnly && state.topic!=='errors') ? p.filter(q=>q.part===1) : p;
+}
+function poolSize(){ return activePool().length; }
+
+/* ---------- filtro "solo le più probabili" ---------- */
+function buildFilterDeck(){
+  const deck=$('#filter-deck'), grid=$('#topic-grid');
+  if(!state.all.some(q=>q.part===1)){
+    state.likelyOnly=false; deck.innerHTML=''; deck.style.display='none';
+    grid.classList.remove('with-filter'); return;
+  }
+  const n = topicPool().filter(q=>q.part===1).length;
+  deck.innerHTML='';
+  const b=el('button','topic review filter'+(state.likelyOnly?' sel':'')+(n?'':' disabled'));
+  b.innerHTML='<span class="tx"><span class="t-name">'+starSvg(12)+'Solo le più probabili</span>'
+    +'<span class="t-prof">Le domande che i docenti indicano come più probabili all\u2019esame</span></span>'
+    +'<span class="t-badge">'+n+'</span>';
+  if(n) b.addEventListener('click',toggleLikely);
+  deck.appendChild(b);
+  deck.style.display=''; grid.classList.add('with-filter');
+}
+function toggleLikely(){
+  state.likelyOnly=!state.likelyOnly;
+  buildFilterDeck();
+  refreshCounts();
 }
 function refreshCounts(){
   const max=poolSize();
@@ -689,9 +727,10 @@ function refreshCounts(){
     const disabled = v!=='all' && parseInt(v)>max;
     c.style.display = disabled ? 'none' : '';
   });
-  // se il count selezionato non è più valido, torna su "tutte"
-  if(state.count!=='all' && state.count>max) selectCount('all');
+  const target = (state.countPref!=='all' && state.countPref>max) ? 'all' : state.countPref;
+  if(state.count!==target) selectCount(target);
 }
+function pickCount(n){ state.countPref=n; selectCount(n); }
 function selectCount(n){
   state.count=n;
   document.querySelectorAll('#count-row .chip').forEach(c=>c.classList.toggle('sel', c.dataset.count==String(n)));
@@ -701,10 +740,7 @@ function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=(Math.ra
 
 /* ---------- start ---------- */
 function startQuiz(){
-  let pool;
-  if(state.topic==='errors') pool = state.all.filter(q=>state.errors.has(q.id));
-  else pool = state.topic==='all' ? state.all : state.all.filter(q=>q.chapter===parseInt(state.topic));
-  pool = shuffle(pool);
+  let pool = shuffle(activePool());
   if(state.count!=='all') pool = pool.slice(0, state.count);
   if(!pool.length){ return; }
   state.questions=pool; state.current=0; state.answers=[]; state.score=0;
@@ -712,13 +748,16 @@ function startQuiz(){
   renderQuestion();
 }
 
+function starSvg(size){
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">'
+    +'<path d="M6 .8l1.55 3.14 3.45.5-2.5 2.44.59 3.44L6 8.7l-3.09 1.62.59-3.44L1 4.44l3.45-.5z"/></svg>';
+}
+
 /* domande segnalate dal docente come le più probabili all'esame */
 function likelyFlag(){
   const f=el('span','q-flag');
   f.title='Segnalata dal docente tra le più probabili all\u2019esame';
-  f.innerHTML='<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">'
-    +'<path d="M6 .8l1.55 3.14 3.45.5-2.5 2.44.59 3.44L6 8.7l-3.09 1.62.59-3.44L1 4.44l3.45-.5z"/></svg>'
-    +'<span>Più probabile</span>';
+  f.innerHTML=starSvg(11)+'<span>Più probabile</span>';
   return f;
 }
 
