@@ -1,7 +1,7 @@
 {
-  "name": "Organizzazione e Lavoro - Quiz EMBA",
+  "name": "Quiz EMBA",
   "short_name": "Quiz EMBA",
-  "description": "Quiz a risposta multipla sui 7 moduli del corso Organizzazione e Lavoro.",
+  "description": "Quiz a risposta multipla sui corsi dell'Executive MBA.",
   "lang": "it",
   "start_url": ".",
   "scope": ".",

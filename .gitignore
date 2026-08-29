@@ -4,4 +4,3 @@ node_modules/
 .claude/
 data/ch*.json
 materiale/
-scripts/

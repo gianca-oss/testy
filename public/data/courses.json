@@ -1,6 +1,13 @@
 {
   "courses": [
     {
+      "id": "marketing",
+      "name": "Marketing",
+      "short": "Marketing",
+      "sub": "Allenati sui 4 moduli del corso con feedback immediato.",
+      "file": "marketing.json"
+    },
+    {
       "id": "organizzazione-e-lavoro",
       "name": "Organizzazione e Lavoro",
       "short": "Org. e Lavoro",

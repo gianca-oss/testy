@@ -3,9 +3,12 @@
 **Questo progetto è `testy` (repo GitHub: `gianca-oss/testy`). NON è quizzy.**
 
 ## Cos'è
-Quiz statico a risposta multipla per lo studio dell'esame EMBA "Organizzazione e Lavoro".
-L'utente si autovaluta rispondendo alle domande; c'è una sezione "Da ripassare" che
-mostra le risposte sbagliate.
+Quiz statico a risposta multipla per lo studio degli esami EMBA. L'utente si autovaluta
+rispondendo alle domande; c'è una sezione "Da ripassare" che mostra le risposte sbagliate.
+Corsi presenti: Marketing (389 domande, 4 moduli - Frey, Scarpi, Pedeliento, Cellino) e
+Organizzazione e Lavoro (915 domande, 7 moduli). Le domande di Marketing sono estratte
+dalla dispensa d'esame con `scripts/parse_marketing_pdf.py` (testo del PDF via pdfminer):
+sono le domande dei "Test di autoverifica" del docente, non domande generate.
 
 ## Struttura
 - App statica servita da un piccolo `server.js` Express (solo `express.static`).
