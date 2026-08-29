@@ -131,6 +131,7 @@
   .topic .t-prof{display:block;font-size:var(--t-meta);color:var(--ink-2);margin-top:3px}
   .topic.all{grid-column:1 / -1}
   .topic.all .t-prof{color:var(--ink-2)}
+  .topic .t-short{display:none}
 
   /* ripasso errori */
   .review-deck{margin-bottom:32px}
@@ -344,7 +345,8 @@
     .topic-grid{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
     .topic{min-height:0;padding:12px 13px}
     .topic.all{grid-column:auto}
-    .topic:not(.all):not(.review) .t-prof{display:none}
+    .topic .t-long{display:none}
+    .topic .t-short{display:inline}
     .review-deck{margin-bottom:20px}
     .filter-deck{margin-bottom:20px}
     .count-row{margin-bottom:24px}
@@ -606,7 +608,9 @@ function buildTopics(){
   const grid = $('#topic-grid'); grid.innerHTML='';
   state.chapters.forEach(ch=>{
     const n = state.all.filter(q=>q.chapter===ch.id).length;
-    grid.appendChild(topicCard(ch.id, topicOf(ch.title), profOf(ch.title)+' - '+n+' domande', false));
+    const sub = '<span class="t-who">'+profOf(ch.title)+'</span>'
+      + '<span class="t-long"> - '+n+' domande</span><span class="t-short"> · '+n+'</span>';
+    grid.appendChild(topicCard(ch.id, topicOf(ch.title), sub, false));
   });
   if(state.chapters.length) selectTopic(state.chapters[0].id);
 }
