@@ -8,10 +8,19 @@ L'utente si autovaluta rispondendo alle domande; c'è una sezione "Da ripassare"
 mostra le risposte sbagliate.
 
 ## Struttura
-- App statica servita da un piccolo `server.js` Express (~49 righe).
+- App statica servita da un piccolo `server.js` Express (solo `express.static`).
 - Tutto il frontend è in `public/` (`index.html`, `sw.js`, manifest, icone).
-- Le domande sono nell'`index.html` / dati statici. **Nessuna cartella `api/`, nessun
-  RAG, nessuna chiamata a modelli.**
+- Le domande stanno in `public/data/`: `courses.json` è l'indice dei corsi, un file
+  JSON per corso contiene `chapters` e `questions`. Unica fonte di verità: il browser
+  li carica via `fetch`, non c'è copia inline né build step.
+- Multi-corso: con un solo corso il selettore in home resta nascosto. Errori da
+  ripassare e statistiche sono salvati per corso (`...-v1:<id corso>` in localStorage);
+  `legacyStorage: true` fa leggere anche le vecchie chiavi globali.
+- **Nessuna cartella `api/`, nessun RAG, nessuna chiamata a modelli.**
+
+## Aggiungere un corso
+Metti `public/data/<slug>.json` con `{chapters, questions}` e aggiungi la voce in
+`public/data/courses.json`. Non serve toccare `index.html`.
 
 ## Da non confondere
 Esiste un progetto separato `quizzy` (`~/GitHub/quizzy`, repo `gianca-oss/Quizzy`):

@@ -1,0 +1,12 @@
+{
+  "courses": [
+    {
+      "id": "organizzazione-e-lavoro",
+      "name": "Organizzazione e Lavoro",
+      "short": "Org. e Lavoro",
+      "sub": "Allenati sui 7 moduli del corso con feedback immediato.",
+      "file": "organizzazione-e-lavoro.json",
+      "legacyStorage": true
+    }
+  ]
+}
