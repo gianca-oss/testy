@@ -596,6 +596,11 @@ async function loadCourse(id){
 
 function profOf(title){ return title.split(' - ')[0].trim(); }
 function topicOf(title){ const i=title.indexOf(' - '); return i<0?title:title.slice(i+3).trim(); }
+function moduleLabel(id, profFirst){
+  const t=chapterTitle(id);
+  if(t.indexOf(' - ')<0) return t;
+  return profFirst ? profOf(t)+' · '+topicOf(t) : topicOf(t)+' · '+profOf(t);
+}
 
 function buildTopics(){
   const grid = $('#topic-grid'); grid.innerHTML='';
@@ -665,7 +670,7 @@ function openErrorReview(){
   $('#study-sub').textContent = qs.length + (qs.length===1?' domanda da ripassare':' domande da ripassare');
   qs.forEach(q=>{
     const d=el('div','card study-item');
-    d.innerHTML=`<div class="mod">${topicOf(chapterTitle(q.chapter))}</div>
+    d.innerHTML=`<div class="mod">${moduleLabel(q.chapter)}</div>
       <div class="sq">${q.question}</div>
       <div class="ans ok"><span class="tag">Corretta</span><span>${q.correct}) ${q.options[q.correct]}</span></div>
       <div class="why">${q.explanation}</div>`;
@@ -770,7 +775,7 @@ function renderQuestion(){
   $('#q-counter').textContent=`${state.current+1} / ${total}`;
   $('#progress-fill').style.width=`${((state.current)/total)*100}%`;
   const mod=$('#q-module'); mod.innerHTML='';
-  const modName=el('span'); modName.textContent=topicOf(chapterTitle(q.chapter)); mod.appendChild(modName);
+  const modName=el('span'); modName.textContent=moduleLabel(q.chapter); mod.appendChild(modName);
   if(q.part===1) mod.appendChild(likelyFlag());
   $('#q-text').textContent=q.question;
 
@@ -883,7 +888,7 @@ function renderBreakdown(){
   ids.forEach(id=>{
     const e=map[id]; const pct=Math.round(e.correct/e.total*100);
     const lv=pct>=70?'high':pct>=40?'mid':'low';
-    const label=topicOf(chapterTitle(id));
+    const label=moduleLabel(id, true);
     const row=el('div','bd-row');
     row.innerHTML=`<span class="bd-label" title="${label}">${label}</span>
       <div class="bd-wrap"><div class="bd-fill lv-${lv}" style="width:0%"></div></div>
@@ -906,7 +911,7 @@ function renderStudy(){
   wrong.forEach(a=>{
     const q=a.q;
     const d=el('div','card study-item');
-    d.innerHTML=`<div class="mod">${topicOf(chapterTitle(q.chapter))}</div>
+    d.innerHTML=`<div class="mod">${moduleLabel(q.chapter)}</div>
       <div class="sq">${q.question}</div>
       <div class="ans no"><span class="tag">La tua risposta</span><span>${a.selected}) ${q.options[a.selected]}</span></div>
       <div class="ans ok"><span class="tag">Corretta</span><span>${a.correct}) ${q.options[a.correct]}</span></div>
