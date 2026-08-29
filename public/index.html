@@ -875,7 +875,8 @@ document.addEventListener('keydown',e=>{
   if(!$('#quiz').classList.contains('active')) return;
   const k=e.key.toLowerCase();
   const map={a:'A',b:'B',c:'C',d:'D','1':'A','2':'B','3':'C','4':'D'};
-  if(map[k] && !state.answered){ e.preventDefault(); answer(map[k]); }
+  const q=state.questions[state.current];
+  if(map[k] && !state.answered){ if(q && map[k] in q.options){ e.preventDefault(); answer(map[k]); } }
   else if((e.key==='Enter'||e.key==='ArrowRight'||e.key===' ') && state.answered){ e.preventDefault(); next(); }
 });
 
