@@ -32,7 +32,7 @@
     --accent-soft:#ededf1;
     --good:#1d8a4e; --good-soft:#e8f5ee;
     --bad:#d23838;  --bad-soft:#fbecec;
-    --amber:#cf8a2c;
+    --amber:#cf8a2c; --amber-soft:#faf1e3;
     --shadow:0 0 0 0 rgba(0,0,0,0);
     --shadow-lift:0 0 0 0 rgba(0,0,0,0);
     --r:16px; --r-sm:11px; --r-pill:999px;
@@ -194,11 +194,18 @@
     padding:26px var(--pad-x) 12px;display:flex;flex-direction:column;
   }
   .q-module{
-    align-self:flex-start;display:inline-flex;align-items:center;gap:8px;
+    align-self:flex-start;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;row-gap:6px;
     color:var(--ink-3);
     font-size:var(--t-eyebrow);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
     margin-bottom:18px;
   }
+  .q-flag{
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--amber-soft);color:var(--amber);
+    padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:700;
+  }
+  .q-flag svg{flex:none}
+
   .q-text{font-size:var(--t-q);font-weight:660;line-height:1.28;letter-spacing:-.018em;text-wrap:pretty;margin-bottom:26px}
 
   .options{display:flex;flex-direction:column;gap:11px}
@@ -705,6 +712,16 @@ function startQuiz(){
   renderQuestion();
 }
 
+/* domande segnalate dal docente come le più probabili all'esame */
+function likelyFlag(){
+  const f=el('span','q-flag');
+  f.title='Segnalata dal docente tra le più probabili all\u2019esame';
+  f.innerHTML='<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">'
+    +'<path d="M6 .8l1.55 3.14 3.45.5-2.5 2.44.59 3.44L6 8.7l-3.09 1.62.59-3.44L1 4.44l3.45-.5z"/></svg>'
+    +'<span>Più probabile</span>';
+  return f;
+}
+
 function chapterTitle(id){ const c=state.chapters.find(c=>c.id===id); return c?c.title:('Modulo '+id); }
 
 function renderQuestion(){
@@ -713,7 +730,9 @@ function renderQuestion(){
   state.answered=false;
   $('#q-counter').textContent=`${state.current+1} / ${total}`;
   $('#progress-fill').style.width=`${((state.current)/total)*100}%`;
-  $('#q-module').textContent = topicOf(chapterTitle(q.chapter));
+  const mod=$('#q-module'); mod.innerHTML='';
+  const modName=el('span'); modName.textContent=topicOf(chapterTitle(q.chapter)); mod.appendChild(modName);
+  if(q.part===1) mod.appendChild(likelyFlag());
   $('#q-text').textContent=q.question;
 
   const cont=$('#options'); cont.innerHTML='';

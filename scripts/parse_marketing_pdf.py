@@ -66,12 +66,13 @@ for prefix, chapter, title in MODULES:
         for k in range(1, len(parts), 2):
             letter, chunk = parts[k], parts[k+1]
             opts[letter] = re.sub(r'^[A-D]\)\s*', '', chunk).strip()
+        part = int(m.group(1).split('.')[1]) - 1   # .2 = Parte I, .3 = Parte II, .4 = Parte III
         correct = AHEAD.match(ah).group(2)
         topic = (AHEAD.match(ah).group(3) or '').strip()
         expl = clean_join(ab)
         qid += 1
         rec = {'id': qid, 'chapter': chapter, 'question': stem,
-               'options': opts, 'correct': correct, 'explanation': expl}
+               'options': opts, 'correct': correct, 'explanation': expl, 'part': part}
         if topic:
             rec['topic'] = topic
         # controlli

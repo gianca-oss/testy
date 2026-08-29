@@ -8,7 +8,10 @@ rispondendo alle domande; c'è una sezione "Da ripassare" che mostra le risposte
 Corsi presenti: Marketing (389 domande, 4 moduli - Frey, Scarpi, Pedeliento, Cellino) e
 Organizzazione e Lavoro (915 domande, 7 moduli). Le domande di Marketing sono estratte
 dalla dispensa d'esame con `scripts/parse_marketing_pdf.py` (testo del PDF via pdfminer):
-sono le domande dei "Test di autoverifica" del docente, non domande generate.
+sono le domande dei "Test di autoverifica" del docente, non domande generate. Il campo
+`part` di ogni domanda ricalca la suddivisione della dispensa (1 = le quindici più
+probabili all'esame per modulo, 2 = banca completa, 3 = concetti generali dalle slide);
+le domande con `part: 1` mostrano il contrassegno "Più probabile" durante il quiz.
 
 ## Struttura
 - App statica servita da un piccolo `server.js` Express (solo `express.static`).
